@@ -1,5 +1,15 @@
 .App {
-  text-align: center;
+  margin: 10px 0 0 10px;
+  width: 200px;
+}
+input {
+  width: 200px;
+  height: 50px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+p {
+  margin: 10px;
 }
 
 .App-logo {
@@ -35,4 +45,11 @@
   to {
     transform: rotate(360deg);
   }
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border: 1px solid navy;
+  width: 100%;
 }
