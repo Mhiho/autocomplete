@@ -26,7 +26,7 @@ const App = () => {
       setResult([]);
     } else {
       setResult(
-        ns.filter((name) => (name.indexOf(e.target.value) > -1 ? name : null))
+        ns.filter((name) => (name.toUpperCase().indexOf(e.target.value.toUpperCase()) > -1 ? name : null))
       );
     }
   };
