@@ -15,19 +15,35 @@ const App = () => {
     dispatch(getAllNames());
   }, [dispatch]);
   const preNames = useSelector((state) => state.namesState);
-  console.log(preNames);
   const ns = preNames && preNames.names && preNames.names.map((n) => n.name);
-
-  console.log(result);
 
   const changeHandler = (e) => {
     setTerm(e.target.value);
     if (e.target.value === "") {
       setResult([]);
+    } else if (term.search(/\s/)) {
+      const presplitT = e.target.value.split(/\s/);
+      const splitT = presplitT.filter((w) => w !== "");
+      const obj = new Set();
+      console.log(splitT);
+      for (let i = 0; i < ns.length; i++) {
+        for (let j = 0; j < splitT.length; j++) {
+          if (ns[i].toUpperCase().indexOf(splitT[j].toUpperCase()) > -1) {
+            obj.add(ns[i]);
+          } else {
+            obj.delete(ns[i]);
+          }
+        }
+      }
+      const arr = Array.from(obj);
+      setResult(arr);
     } else {
-      setResult(
-        ns.filter((name) => (name.toUpperCase().indexOf(e.target.value.toUpperCase()) > -1 ? name : null))
+      const res = ns.filter((name) =>
+        name.toUpperCase().indexOf(e.target.value.toUpperCase()) > -1
+          ? name
+          : null
       );
+      setResult(res);
     }
   };
   return (
