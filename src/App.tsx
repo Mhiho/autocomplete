@@ -19,10 +19,10 @@ const App : React.FC = () => {
   const names : any = JSON.parse(localStorage.getItem('names') || '{}')
   const dispatch = useDispatch();
   useEffect(() : void => {
-    if(names.length === 0){
-      dispatch(getAllNames());
-    }else{
+    if(names.length > 0){
       return;
+    }else{
+      dispatch(getAllNames());
     }
     }, [dispatch,names]); 
     
