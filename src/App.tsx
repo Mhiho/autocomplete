@@ -16,17 +16,22 @@ const App : React.FC = () => {
 
   const [result, setResult] = useState([]);
   const [term, setTerm] = useState("");
-  const [selected, setSelected] = useState([])
-
+  const names : any = JSON.parse(localStorage.getItem('names') || '{}')
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAllNames());
-  }, [dispatch]);
+  useEffect(() : void => {
+    if(names.length === 0){
+      dispatch(getAllNames());
+    }else{
+      return;
+    }
+    }, [dispatch,names]); 
+    
   const preNames : INamesState = useSelector((state : IAppState) => state.namesState);
-  console.log(preNames)
-  const ns : string[] = preNames && preNames.names && preNames.names.map((n : IName) => n.name);
-
+  const fetchedNames : string[] = preNames && preNames.names && preNames.names.map((n : IName) => n.name);
+  localStorage.setItem('names', JSON.stringify(fetchedNames))
+  const ns : string[] = names || fetchedNames;
+  console.log(fetchedNames) 
+  console.log(ns)
   const changeHandler = (e : any) => {
     setTerm(e.target.value);
     if (e.target.value === "") {
@@ -48,7 +53,7 @@ const App : React.FC = () => {
       const arr : any = Array.from(obj);
       setResult(arr);
     } else {
-      const res : any = ns.filter((name) =>
+      const res : any = ns.filter((name: any) =>
         name.toUpperCase().indexOf(e.target.value.toUpperCase()) > -1
           ? name
           : null

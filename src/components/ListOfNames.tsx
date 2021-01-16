@@ -13,17 +13,19 @@ const ListOfNames: React.FC<IProps> = ({ names }) => {
 
   const addHandler = (e: any): void => {
     const arr: any = [...selected, e.target.dataset.name]
-    setSelected(arr)
+    const pureNamesSet = new Set();
+    arr.map((n : string) => pureNamesSet.add(n));
+    const pureNames : any = Array.from(pureNamesSet);
+    console.log(pureNames)
+    setSelected(pureNames)
   }
   const deleteHandler = (e: any): void => {
     setSelected(selected.filter(n => n !== e.target.dataset.name))
   }
-
   return (
     <div className="results-container">
       <div className="results-list">
-
-        {names.map((name, index) => (
+        {names.map((name) => (
           <div data-name={`${name}`} onClick={(e) => addHandler(e)} key={`resultName-${name}`}>
             {name}
           </div>
