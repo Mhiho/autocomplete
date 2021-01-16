@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const Autocomplete = ({ value, onChange, keyDown }) => {
+interface IProps {
+    value : any;
+    onChange: any;
+}
+
+const Autocomplete : React.FC<IProps> = ({ value, onChange }) => {
 
     return (
         <React.Fragment>
             <form>
-                <input
-              onKeyDown={keyDown} 
+                <input 
               placeholder="name"
               type="text"
               value={value}

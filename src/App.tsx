@@ -4,9 +4,19 @@ import Autocomplete from "./components/Autocomplete";
 import { getAllNames } from "./actions/namesAction";
 import { useSelector, useDispatch } from "react-redux";
 import ListOfNames from "./components/ListOfNames";
+import { IName, INamesState } from './reducers/namesReducer';
+import { IAppState } from './store'
 
-const App = () => {
-  const [result, setResult] = useState([]);
+export interface IOnlyName {
+  name ? : string;
+  toUpperCase(): any;
+  indexOf(): any;
+}
+
+
+const App : React.FC = () => {
+
+  const [result, setResult] = useState<IOnlyName[]>([]);
   const [term, setTerm] = useState("");
 
   const dispatch = useDispatch();
@@ -14,16 +24,17 @@ const App = () => {
   useEffect(() => {
     dispatch(getAllNames());
   }, [dispatch]);
-  const preNames = useSelector((state) => state.namesState);
-  const ns = preNames && preNames.names && preNames.names.map((n) => n.name);
+  const preNames : INamesState = useSelector((state : IAppState) => state.namesState);
+  console.log(preNames)
+  const ns : string[] = preNames && preNames.names && preNames.names.map((n : IName) => n.name);
 
-  const changeHandler = (e) => {
+  const changeHandler = (e : any) => {
     setTerm(e.target.value);
     if (e.target.value === "") {
       setResult([]);
     } else if (term.search(/\s/)) {
       const presplitT = e.target.value.split(/\s/);
-      const splitT = presplitT.filter((w) => w !== "");
+      const splitT : IOnlyName[] = presplitT.filter((w: IOnlyName["name"]) => w !== "");
       const obj = new Set();
       console.log(splitT);
       for (let i = 0; i < ns.length; i++) {
@@ -35,10 +46,10 @@ const App = () => {
           }
         }
       }
-      const arr = Array.from(obj);
+      const arr : any = Array.from(obj);
       setResult(arr);
     } else {
-      const res = ns.filter((name) =>
+      const res : any = ns.filter((name) =>
         name.toUpperCase().indexOf(e.target.value.toUpperCase()) > -1
           ? name
           : null
@@ -49,7 +60,7 @@ const App = () => {
   return (
     <div className="App">
       <div className="list">
-        <Autocomplete onChange={(e) => changeHandler(e)} value={term} />
+        <Autocomplete onChange={( e : any ) => changeHandler(e)} value={term} />
         <ListOfNames names={result} />
       </div>
     </div>
