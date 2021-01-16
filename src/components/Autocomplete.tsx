@@ -1,4 +1,5 @@
 import React from 'react';
+import '../style/main.scss';
 
 interface IProps {
     value : any;
@@ -17,6 +18,10 @@ const Autocomplete : React.FC<IProps> = ({ value, onChange }) => {
               onChange={onChange}
               />
             </form>
+            <article>
+                <h3>Opis działania:</h3>
+                <h4>Aplikacja zaciąga userów, których lista jest następnie dostarczana do localStorage. Po kliknięciu na element wyrzucony z inputu, dodajemy ten element do drugiej listy. Usuwamy elementy z drugiej listy za pomocą kliknięcia w dany element.</h4>
+            </article>
         </React.Fragment>
     )
 }

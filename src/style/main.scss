@@ -1,7 +1,67 @@
+$main-color: #fbc1a2;
+$main-dark-color: #f79256;
+$light-blue: #7dcfb6;
+$blue: #00b2ca;
+$dark-blue: #1d4e89;
+$font-color: #292929;
+
+body {
+  background: $main-color;
+}
+input {
+  height: 40px;
+  font-size: 16px;
+  background: $light-blue;
+  border-radius: 5px;
+  color: $font-color;
+  border: 1px solid $blue;
+  &:focus {
+    box-shadow: 0 0 2pt 1pt $dark-blue;
+  }
+}
+
 .results-container {
-    width: 100vw;
-    min-height: 90vh;
+  font-size: 1.5rem;
+  width: 100vw;
+  min-height: 90vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  box-sizing: border-box;
+}
+.results-list,
+.results-added-names {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+}
+
+.results-list {
+  margin-left: 50px;
+  & > div {
+    width: 100%;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    margin: 10px 3px 3px 10px;
+    &:hover {
+      color: $light-blue;
+    }
+  }
+}
+.results-added-names {
+  margin-right: 50px;
+  & > div {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    color: $dark-blue;
+    margin: 10px 3px 3px 10px;
+    cursor: pointer;
+    &:hover {
+      color: $light-blue;
+    }
+  }
 }
