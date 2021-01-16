@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
 import Autocomplete from "./components/Autocomplete";
 import { getAllNames } from "./actions/namesAction";
 import { useSelector, useDispatch } from "react-redux";
 import ListOfNames from "./components/ListOfNames";
 import { IName, INamesState } from './reducers/namesReducer';
-import { IAppState } from './store'
+import { IAppState } from './store';
 
 export interface IOnlyName {
   name ? : string;
-  toUpperCase(): any;
-  indexOf(): any;
+  toUpperCase: any;
+  indexOf: any;
 }
-
 
 const App : React.FC = () => {
 
-  const [result, setResult] = useState<IOnlyName[]>([]);
+  const [result, setResult] = useState([]);
   const [term, setTerm] = useState("");
+  const [selected, setSelected] = useState([])
 
   const dispatch = useDispatch();
 
@@ -58,11 +57,11 @@ const App : React.FC = () => {
     }
   };
   return (
-    <div className="App">
-      <div className="list">
+    <div>
+      <main>
         <Autocomplete onChange={( e : any ) => changeHandler(e)} value={term} />
         <ListOfNames names={result} />
-      </div>
+      </main>
     </div>
   );
 };
