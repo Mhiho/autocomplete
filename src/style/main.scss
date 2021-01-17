@@ -1,12 +1,14 @@
-$main-color: #fbc1a2;
-$main-dark-color: #f79256;
-$light-blue: #7dcfb6;
-$blue: #00b2ca;
-$dark-blue: #1d4e89;
+$main-color: #999999;
+$main-dark-color: #333333;
+$ascent-color: #ffe6ff;
+$light-blue: #ffe6cc;
+$blue: #ffa64d;
+$dark-blue: #ff8000;
 $font-color: #292929;
 
 body {
   background: $main-color;
+  color: $font-color;
 }
 input {
   height: 40px;
@@ -16,7 +18,7 @@ input {
   color: $font-color;
   border: 1px solid $blue;
   &:focus {
-    box-shadow: 0 0 2pt 1pt $dark-blue;
+    box-shadow: 0 0 2pt 1pt $ascent-color;
   }
 }
 
@@ -57,7 +59,7 @@ input {
     width: 100%;
     display: flex;
     justify-content: flex-start;
-    color: $dark-blue;
+    color: $blue;
     margin: 10px 3px 3px 10px;
     cursor: pointer;
     &:hover {
