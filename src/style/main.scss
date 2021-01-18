@@ -12,7 +12,7 @@ body {
 }
 input {
   height: 40px;
-  font-size: 16px;
+  font-size: 1em;
   background: $light-blue;
   border-radius: 5px;
   color: $font-color;
@@ -24,8 +24,8 @@ input {
 
 .results-container {
   font-size: 1.5rem;
-  width: 100vw;
-  min-height: 90vh;
+  width: 100%;
+  min-height: 50vh;
   display: flex;
   justify-content: flex-start;
   align-items: center;
