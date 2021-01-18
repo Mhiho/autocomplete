@@ -41,43 +41,23 @@ const App: React.FC = () => {
   })
   const changeHandler = (e: any) => {
     setTerm(e.target.value);
-    if (e.target.value === "") {
+    let splittedTerm : any = e.target.value.toUpperCase().split(' ');
+    if (splittedTerm.length < 1) {
+      console.log(1)
       setResult([]);
-    } else if (term.search(/\s/)) {
-      const presplitT = e.target.value.split(/\s/);
-      const splitT: string[] = presplitT.filter((w: IOnlyName["name"]) => w !== "");
-      const obj = new Set();
-      console.log(splitT)
-      for (let i = 0; i < ns.length; i++) {
-        // for (let j = 0; j < splitT.length; j++) {
-        if (splitT.length > 0) {
-          if (ns[i].toUpperCase().includes(splitT[0].toUpperCase())) {
-            obj.add(ns[i]);
-          } else {
-            obj.delete(ns[i]);
-          }
-        } else if (splitT.length > 1) {
-          if ((ns[i].toUpperCase().includes(splitT[0].toUpperCase()))
-            || (ns[i].toUpperCase().includes(splitT[1].toUpperCase()))
-          ) {
-            obj.add(ns[i]);
-
-          } else {
-            obj.delete(ns[i]);
-
-          }
-          obj.add(ns[i]);
-        } else {
-
-          obj.delete(ns[i]);
-        }
-      }
-      const arr: any = Array.from(obj);
+    } else if(splittedTerm.length < 2 ) {
+      const arr = ns.filter((n : string) =>  n.toUpperCase().includes(splittedTerm[0]) ?
+      n : null )
       setResult(arr);
-    } else {
-      return;
+      console.log(splittedTerm)
+    } else if (splittedTerm.length > 1 && splittedTerm[1] !== '') {
+
+      const arr = ns.filter((n : string) =>  n.toUpperCase().search(splittedTerm[0]) > -1 && n.toUpperCase().search(splittedTerm[1]) > -1 ?
+      n : null)
+      console.log(splittedTerm)
+      setResult(arr)
     }
-  };
+    }
   return (
     <div>
       <main>
