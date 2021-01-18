@@ -3,81 +3,85 @@ import Autocomplete from "./components/Autocomplete";
 import { getAllNames } from "./actions/namesAction";
 import { useSelector, useDispatch } from "react-redux";
 import ListOfNames from "./components/ListOfNames";
-import { IName, INamesState } from './reducers/namesReducer';
+import { INamesState } from './reducers/namesReducer';
 import { IAppState } from './store';
 import { useLocalStorage } from './hooks/useLocalStorage';
 
 export interface IOnlyName {
-  name ? : string;
+  name?: string;
   toUpperCase: any;
   indexOf: any;
 }
 
-const App : React.FC = () => {
+const App: React.FC = () => {
 
   const [ns, setNs] = useLocalStorage<any>('names', []);
-  console.log(ns)
   const [result, setResult] = useState([]);
   const [term, setTerm] = useState("");
 
   const dispatch = useDispatch();
 
-  
-  useEffect(() : void => {
-    
-    if(ns.length > 0){
+  useEffect((): void => {
+
+    if (ns.length > 0) {
       return;
-    }else{
+    } else {
       dispatch(getAllNames());
     }
   }, []);
 
-  const preNames : INamesState = useSelector((state : IAppState) => state.namesState);
+  const preNames: INamesState = useSelector((state: IAppState) => state.namesState);
   useEffect(() => {
-    if(ns.length > 0 ){
+    if (ns.length > 0) {
       return;
-    }else{
-      const fetchedNames : string[] = preNames && preNames.names && preNames.names.map(n => n.name);
+    } else {
+      const fetchedNames: string[] = preNames && preNames.names && preNames.names.map(n => n.name);
       setNs(fetchedNames)
     }
   })
-    
- 
-  console.log(ns)
-  const changeHandler = (e : any) => {
+  const changeHandler = (e: any) => {
     setTerm(e.target.value);
     if (e.target.value === "") {
       setResult([]);
     } else if (term.search(/\s/)) {
       const presplitT = e.target.value.split(/\s/);
-      const splitT : IOnlyName[] = presplitT.filter((w: IOnlyName["name"]) => w !== "");
+      const splitT: string[] = presplitT.filter((w: IOnlyName["name"]) => w !== "");
       const obj = new Set();
-
-
+      console.log(splitT)
       for (let i = 0; i < ns.length; i++) {
-        for (let j = 0; j < splitT.length; j++) {
-          if (ns[i].toUpperCase().includes(splitT[j].toUpperCase())) {
+        // for (let j = 0; j < splitT.length; j++) {
+        if (splitT.length > 0) {
+          if (ns[i].toUpperCase().includes(splitT[0].toUpperCase())) {
             obj.add(ns[i]);
           } else {
             obj.delete(ns[i]);
           }
+        } else if (splitT.length > 1) {
+          if ((ns[i].toUpperCase().includes(splitT[0].toUpperCase()))
+            || (ns[i].toUpperCase().includes(splitT[1].toUpperCase()))
+          ) {
+            obj.add(ns[i]);
+
+          } else {
+            obj.delete(ns[i]);
+
+          }
+          obj.add(ns[i]);
+        } else {
+
+          obj.delete(ns[i]);
         }
       }
-      const arr : any = Array.from(obj);
+      const arr: any = Array.from(obj);
       setResult(arr);
     } else {
-      const res : any = ns.filter((name: any) =>
-        name.toUpperCase().indexOf(e.target.value.toUpperCase()) > -1
-          ? name
-          : null
-      );
-      setResult(res);
+      return;
     }
   };
   return (
     <div>
       <main>
-        <Autocomplete onChange={( e : any ) => changeHandler(e)} value={term} />
+        <Autocomplete onChange={(e: any) => changeHandler(e)} value={term} />
         <ListOfNames names={result} />
       </main>
     </div>
