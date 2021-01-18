@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../style/main.scss';
-import { usePrev } from '../hooks/usePrev'
+import { usePrev } from '../hooks/usePrev';
 
 interface IProps {
     value: any;
@@ -21,7 +21,6 @@ const Autocomplete: React.FC<IProps> = ({ value, onChange }) => {
             let str = string + array[index]
             setIndex(index+1)
             setString(str)
-            console.log(string)
         },randomTime)
     }
 useEffect(() => {
@@ -44,7 +43,7 @@ useEffect(() => {
             <article>
                 <h3>Opis działania:</h3>
                 <h4>
-                    {string}
+                    {description}
                 </h4>
             </article>
         </React.Fragment>

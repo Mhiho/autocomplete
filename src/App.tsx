@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ListOfNames from "./components/ListOfNames";
 import { IName, INamesState } from './reducers/namesReducer';
 import { IAppState } from './store';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 export interface IOnlyName {
   name ? : string;
@@ -14,23 +15,34 @@ export interface IOnlyName {
 
 const App : React.FC = () => {
 
+  const [ns, setNs] = useLocalStorage<any>('names', []);
+  console.log(ns)
   const [result, setResult] = useState([]);
   const [term, setTerm] = useState("");
-  const names : any = JSON.parse(localStorage.getItem('names') || '{}')
+
   const dispatch = useDispatch();
+
+  
   useEffect(() : void => {
-    if(names.length > 0){
+    
+    if(ns.length > 0){
       return;
     }else{
       dispatch(getAllNames());
     }
-    }, [dispatch,names]); 
-    
+  }, []);
+
   const preNames : INamesState = useSelector((state : IAppState) => state.namesState);
-  const fetchedNames : string[] = preNames && preNames.names && preNames.names.map((n : IName) => n.name);
-  localStorage.setItem('names', JSON.stringify(fetchedNames))
-  const ns : string[] = names || fetchedNames;
-  console.log(fetchedNames) 
+  useEffect(() => {
+    if(ns.length > 0 ){
+      return;
+    }else{
+      const fetchedNames : string[] = preNames && preNames.names && preNames.names.map(n => n.name);
+      setNs(fetchedNames)
+    }
+  })
+    
+ 
   console.log(ns)
   const changeHandler = (e : any) => {
     setTerm(e.target.value);
@@ -40,10 +52,11 @@ const App : React.FC = () => {
       const presplitT = e.target.value.split(/\s/);
       const splitT : IOnlyName[] = presplitT.filter((w: IOnlyName["name"]) => w !== "");
       const obj = new Set();
-      console.log(splitT);
+
+
       for (let i = 0; i < ns.length; i++) {
         for (let j = 0; j < splitT.length; j++) {
-          if (ns[i].toUpperCase().indexOf(splitT[j].toUpperCase()) > -1) {
+          if (ns[i].toUpperCase().includes(splitT[j].toUpperCase())) {
             obj.add(ns[i]);
           } else {
             obj.delete(ns[i]);
