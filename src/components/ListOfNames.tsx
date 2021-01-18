@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { IOnlyName } from '../App';
 import '../style/main.scss';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 interface IProps {
   names: IOnlyName[];
@@ -9,18 +10,18 @@ interface IProps {
 
 const ListOfNames: React.FC<IProps> = ({ names }) => {
 
-  const [selected, setSelected] = useState([]);
+  const [selectedNs, setSelectedNs] = useLocalStorage<any>('selected', [])
 
   const addHandler = (e: any): void => {
-    const arr: any = [...selected, e.target.dataset.name]
+    const arr: any = [...selectedNs, e.target.dataset.name]
     const pureNamesSet = new Set();
     arr.map((n : string) => pureNamesSet.add(n));
     const pureNames : any = Array.from(pureNamesSet);
     console.log(pureNames)
-    setSelected(pureNames)
+    setSelectedNs(pureNames)
   }
   const deleteHandler = (e: any): void => {
-    setSelected(selected.filter(n => n !== e.target.dataset.name))
+    setSelectedNs(selectedNs.filter((n: string )=> n !== e.target.dataset.name))
   }
   return (
     <div className="results-container">
@@ -33,7 +34,7 @@ const ListOfNames: React.FC<IProps> = ({ names }) => {
         }
       </div>
       <div className="results-added-names">
-        {selected.map((name, index) => (
+        {selectedNs.map((name :string, index : number) => (
           <div data-name={`${name}`} onClick={(e) => deleteHandler(e)} key={`selName-${name}`}>
             {name}
           </div>

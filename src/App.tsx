@@ -51,7 +51,6 @@ const App: React.FC = () => {
       setResult(arr);
       console.log(splittedTerm)
     } else if (splittedTerm.length > 1 && splittedTerm[1] !== '') {
-
       const arr = ns.filter((n : string) =>  n.toUpperCase().search(splittedTerm[0]) > -1 && n.toUpperCase().search(splittedTerm[1]) > -1 ?
       n : null)
       console.log(splittedTerm)
